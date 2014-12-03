@@ -44,40 +44,43 @@ if(ctx){
     var co=30;
     
     document.addEventListener('touchmove',function(e){e.preventDefault();},false);
-    //画出坐标系
-
-    ctx.strokeStyle=ctx.fillStyle='#666';
-    ctx.lineWidth=2;
-
-    ctx.beginPath();
-    //画纵向和横向线
-    ctx.moveTo(co,co);
-    ctx.lineTo(co,ch-co);
-    ctx.lineTo(cw-co,ch-co);
-    //画向上箭头
-    ctx.moveTo(co-5,co+5);
-    ctx.lineTo(co,co);
-    ctx.lineTo(co+5,co+5);
-    //画向右箭头
-    ctx.moveTo(cw-co-5,ch-co-5);
-    ctx.lineTo(cw-co,ch-co);
-    ctx.lineTo(cw-co-5,ch-co+5);
     
-    ctx.stroke();
+    document.addEventListener('DOMContentLoaded',function(e){
+        //画出坐标系
 
-    //画参考线
-    var i=1,to;
-    ctx.font="12px 'Microsoft YaHei'";
-    ctx.fillText('0',co-10,ch-co);
-    ctx.fillText('帧率',co-10,co-10);
-    ctx.fillText('时间',cw-co-20,ch-co+20);
-    while(i<7){
-        to=ch-co-((ch-co*2-40)*i/6);
-        drawDotted(co+1,to,cw-co,to); 
-        ctx.fillText(i++*10,co-20,to+5);
-    }
-    
-    document.addEventListener('DOMContentLoaded',function(e){test();},false);
+        ctx.strokeStyle=ctx.fillStyle='#666';
+        ctx.lineWidth=2;
+
+        ctx.beginPath();
+        //画纵向和横向线
+        ctx.moveTo(co,co);
+        ctx.lineTo(co,ch-co);
+        ctx.lineTo(cw-co,ch-co);
+        //画向上箭头
+        ctx.moveTo(co-5,co+5);
+        ctx.lineTo(co,co);
+        ctx.lineTo(co+5,co+5);
+        //画向右箭头
+        ctx.moveTo(cw-co-5,ch-co-5);
+        ctx.lineTo(cw-co,ch-co);
+        ctx.lineTo(cw-co-5,ch-co+5);
+        
+        ctx.stroke();
+
+        //画参考线
+        var i=1,to;
+        ctx.font="12px 'Microsoft YaHei'";
+        ctx.fillText('0',co-10,ch-co);
+        ctx.fillText('帧率',co-10,co-10);
+        ctx.fillText('时间',cw-co-20,ch-co+20);
+        while(i<7){
+            to=ch-co-((ch-co*2-40)*i/6);
+            drawDotted(co+1,to,cw-co,to); 
+            ctx.fillText(i++*10,co-20,to+5);
+        }
+
+        test();
+    },false);
 }
 
 function drawDotted(x,y,x1,y1){
