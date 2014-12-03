@@ -103,16 +103,18 @@ function test(){
         x1=x,y1=y-h,
         ret=[],
         run=function(){
-            var num=ret.reduce(function(a,b){
-                return a+b;
-            },0)/ret.length;
-            ctx.beginPath();
-            ctx.moveTo(x1,y1);
-            ctx.lineTo(x1=x+w*this.percent,y1=y-num/60*h);
-            ctx.stroke();
-
-            ret.length=0;
-        }
+            if(ret.length){
+                var num=ret.reduce(function(a,b){
+                    return a+b;
+                },0)/ret.length;
+                ctx.beginPath();
+                ctx.moveTo(x1,y1);
+                ctx.lineTo(x1=x+w*this.percent,y1=y-num/60*h);
+                ctx.stroke();
+                ret.length=0;
+                _ret.push(num);
+            }
+        },_ret=[];
     ctx.strokeStyle='blue';
     ctx.fillStyle='green';
     new Animation(20000).next(function(frameTime){
@@ -123,7 +125,14 @@ function test(){
         ctx.beginPath();
         ctx.arc(x+(w-20)*this.percent+10,co+20,10,0,Math.PI*2);
         ctx.fill();
-    }).frame(100,run).finish(run).start();
+    }).frame(100,run).finish(run).finish(function(){
+        var num=_ret.reduce(function(a,b){
+            return a+b;
+        },0)/_ret.length;
+        ctx.font="24px 'Microsoft YaHei'";
+        ctx.fillStyle='red';
+        ctx.fillText('平均帧率：'+parseInt(num),cw/2-60,ch/2-10);
+    }).start();
 }
 </script>
 </body>
