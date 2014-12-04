@@ -69,14 +69,19 @@ if(ctx){
 
         //画参考线
         var i=1,to;
-        ctx.font="12px 'Microsoft YaHei'";
+        ctx.font="10px 'Microsoft YaHei'";
+        ctx.textAlign='right';
         ctx.fillText('0',co-10,ch-co);
-        ctx.fillText('帧率',co-10,co-10);
-        ctx.fillText('时间',cw-co-20,ch-co+20);
-        while(i<7){
-            to=ch-co-((ch-co*2-40)*i/6);
+        ctx.fillText('帧率',co+10,co-10);
+        ctx.fillText('时间',cw-co,ch-co+20);
+        while(i<=10){
+            if(ch<=320 && i%2){
+                i++;
+                continue;
+            }
+            to=ch-co-((ch-co*2-40)*i/10);
             drawDotted(co+1,to,cw-co,to); 
-            ctx.fillText(i++*10,co-20,to+5);
+            ctx.fillText(i++*10,co-5,to+3);
         }
 
         test();
@@ -91,7 +96,7 @@ function drawDotted(x,y,x1,y1){
     ctx.strokeStyle='#ccc';
     ctx.lineWidth=1;
     ctx.beginPath();
-    while(i<len){
+    while(i<len+5){
         ctx.moveTo(i*rx+x,i*ry+y);
         i+=5;
         ctx.lineTo(i*rx+x,i*ry+y);
@@ -103,7 +108,7 @@ function drawDotted(x,y,x1,y1){
 function test(){
     var x=co+1,y=ch-co,
         w=cw-co*2,h=ch-co*2-40,
-        x1=x,y1=y-h,
+        x1=x,y1=y-h*3/5,
         ret=[],
         run=function(){
             if(ret.length){
@@ -112,7 +117,7 @@ function test(){
                 },0)/ret.length;
                 ctx.beginPath();
                 ctx.moveTo(x1,y1);
-                ctx.lineTo(x1=x+w*this.percent,y1=y-num/60*h);
+                ctx.lineTo(x1=x+w*this.percent,y1=y-num/100*h);
                 ctx.stroke();
                 ret.length=0;
                 _ret.push(num);
@@ -122,7 +127,7 @@ function test(){
     ctx.fillStyle='green';
     new Animation(20000).next(function(frameTime){
         if(frameTime){
-            ret.push(Math.min(Math.floor(1000/frameTime),60));
+            ret.push(Math.min(Math.floor(1000/frameTime),120));
         }
         //渲染圆
         ctx.beginPath();
@@ -132,9 +137,10 @@ function test(){
         var num=_ret.reduce(function(a,b){
             return a+b;
         },0)/_ret.length;
-        ctx.font="24px 'Microsoft YaHei'";
+        ctx.font="20px 'Microsoft YaHei'";
+        ctx.textAlign='left';
         ctx.fillStyle='red';
-        ctx.fillText('平均帧率：'+parseInt(num),cw/2-60,ch/2-10);
+        ctx.fillText('平均帧率：'+parseInt(num),cw/2-60,y-85/100*h);
     }).start();
 }
 </script>
