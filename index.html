@@ -39,9 +39,9 @@ var canvas=document.getElementById('canvas'),
     ctx=canvas.getContext && canvas.getContext('2d');
 
 if(ctx){
-    var cw=canvas.width=canvas.parentNode.offsetWidth;
-    var ch=canvas.height=canvas.parentNode.offsetHeight;
-    var co=30;
+    var cw=canvas.width=canvas.parentNode.offsetWidth*2;
+    var ch=canvas.height=canvas.parentNode.offsetHeight*2;
+    var co=60;
     
     document.addEventListener('touchmove',function(e){e.preventDefault();},false);
     
@@ -49,39 +49,39 @@ if(ctx){
         //画出坐标系
 
         ctx.strokeStyle=ctx.fillStyle='#666';
-        ctx.lineWidth=2;
+        ctx.lineWidth=4;
 
         ctx.beginPath();
         //画纵向和横向线
         ctx.moveTo(co,co);
         ctx.lineTo(co,ch-co);
-        ctx.lineTo(cw-co,ch-co);
+        ctx.lineTo(cw-co/2,ch-co);
         //画向上箭头
-        ctx.moveTo(co-5,co+5);
+        ctx.moveTo(co-10,co+10);
         ctx.lineTo(co,co);
-        ctx.lineTo(co+5,co+5);
+        ctx.lineTo(co+10,co+10);
         //画向右箭头
-        ctx.moveTo(cw-co-5,ch-co-5);
-        ctx.lineTo(cw-co,ch-co);
-        ctx.lineTo(cw-co-5,ch-co+5);
+        ctx.moveTo(cw-co/2-10,ch-co-10);
+        ctx.lineTo(cw-co/2,ch-co);
+        ctx.lineTo(cw-co/2-10,ch-co+10);
         
         ctx.stroke();
 
         //画参考线
         var i=1,to;
-        ctx.font="12px 'Microsoft YaHei'";
+        ctx.font="24px 'Microsoft YaHei'";
         ctx.textAlign='right';
         ctx.fillText('0',co-10,ch-co);
-        ctx.fillText('帧率',co+10,co-10);
-        ctx.fillText('时间',cw-co,ch-co+20);
+        ctx.fillText('帧率',co+20,co-20);
+        ctx.fillText('时间',cw-co/2,ch-co+40);
         while(i<=10){
-            if(ch<=320 && i%2){
+            if(ch<=640 && i%2){
                 i++;
                 continue;
             }
-            to=ch-co-((ch-co*2-40)*i/10);
-            drawDotted(co+1,to,cw-co,to); 
-            ctx.fillText(i++*10,co-5,to+3);
+            to=ch-co-((ch-co*2-80)*i/10);
+            drawDotted(co+2,to,cw-co,to); 
+            ctx.fillText(i++*10,co-10,to+6);
         }
 
         test();
@@ -98,16 +98,16 @@ function drawDotted(x,y,x1,y1){
     ctx.beginPath();
     while(i<len+5){
         ctx.moveTo(i*rx+x,i*ry+y);
-        i+=5;
+        i+=10;
         ctx.lineTo(i*rx+x,i*ry+y);
-        i+=5;
+        i+=10;
     }
     ctx.stroke();
 }
 
 function test(){
-    var x=co+1,y=ch-co,
-        w=cw-co*2,h=ch-co*2-40,
+    var x=co+2,y=ch-co,
+        w=cw-co*2,h=ch-co*2-80,
         x1=x,y1=y-h*3/5,
         ret=[],
         run=function(){
@@ -125,22 +125,23 @@ function test(){
         },_ret=[];
     ctx.strokeStyle='blue';
     ctx.fillStyle='green';
+    ctx.lineWidth=2;
     new Animation(20000).next(function(frameTime){
         if(frameTime){
             ret.push(Math.min(Math.floor(1000/frameTime),120));
         }
         //渲染圆
         ctx.beginPath();
-        ctx.arc(x+(w-20)*this.percent+10,co+20,10,0,Math.PI*2);
+        ctx.arc(x+(w-40)*this.percent+20,co+40,20,0,Math.PI*2);
         ctx.fill();
     }).frame(100,run).finish(run).finish(function(){
         var num=_ret.reduce(function(a,b){
             return a+b;
         },0)/_ret.length;
-        ctx.font="20px 'Microsoft YaHei'";
+        ctx.font="40px 'Microsoft YaHei'";
         ctx.textAlign='left';
         ctx.fillStyle='red';
-        ctx.fillText('平均帧率：'+Math.round(num),cw/2-60,y-85/100*h);
+        ctx.fillText('平均帧率：'+Math.round(num),cw/2-120,y-85/100*h);
     }).start();
 }
 </script>
