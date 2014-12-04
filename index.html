@@ -140,7 +140,7 @@ function test(){
         ctx.font="20px 'Microsoft YaHei'";
         ctx.textAlign='left';
         ctx.fillStyle='red';
-        ctx.fillText('平均帧率：'+parseInt(num),cw/2-60,y-85/100*h);
+        ctx.fillText('平均帧率：'+Math.round(num),cw/2-60,y-85/100*h);
     }).start();
 }
 </script>
